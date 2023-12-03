@@ -1,0 +1,33 @@
+Function Remove-FortniteLoginQueue 
+{ 
+    #Specify the Fortnite path
+    $FortnitePath = "E:\Fortnite\FortniteGame\Binaries\Win64"
+
+    #Check if Fortnite is installed 
+    If(!(Test-Path -Path $FortnitePath)) 
+    {
+        Write-Host "Fortnite not installed."
+    } 
+    Else 
+    { 
+        #Enumerate executables in Fortnite directory 
+        $Files = Get-ChildItem $FortnitePath -filter *.exe 
+
+        #Enumerate Windows services 
+        $Services = Get-Service 
+
+        ForEach($File in $Files) 
+        { 
+            #Loop through all Fortnite executables 
+            ForEach($Service in $Services) 
+            { 
+                #If a service is using a Fortnite .exe, try to stop it 
+                if($Service.ProcessName -eq $File.Name) 
+                { 
+                    #Stop-Service will just stop the process, this command will also delete it
+                    #... (the rest of your script)
+                }
+            }
+        }
+    }
+}
